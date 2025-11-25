@@ -145,7 +145,7 @@ app.post("/enviar-codigo", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
@@ -203,7 +203,7 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
