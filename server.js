@@ -76,7 +76,7 @@ const codigosAtivos = new Map();
 // PIX À VISTA
 // =============================
 app.post("/pix/avista", express.json(), async (req, res) => {
-  const { valorAvista,obs } = req.body;
+  const { valorAvista, obs } = req.body;
 
   if (!valorAvista) {
     return res.status(400).json({ error: "Informe valorAvista" });
@@ -104,7 +104,7 @@ app.post("/pix/avista", express.json(), async (req, res) => {
 // PIX A PRAZO (1 + 3)
 // =============================
 app.post("/pix/aprazo", express.json(), async (req, res) => {
-  const { valorTotal,obs } = req.body;
+  const { valorTotal, obs } = req.body;
 
   if (!valorTotal) {
     return res.status(400).json({ error: "Informe valorTotal" });
@@ -152,7 +152,7 @@ app.post("/enviar-codigo", express.json(), async (req, res) => {
         user: "noreply@prodasiq.com.br",
         pass: "Pr0d@5Iq", // use variável de ambiente em produção
       },
-	  tls: { rejectUnauthorized: false },
+      tls: { rejectUnauthorized: false },
     });
 
     await transporter.sendMail({
@@ -198,8 +198,43 @@ app.post("/validar-codigo", express.json(), (req, res) => {
 // ENVIAR CONFIRMAÇÃO
 // =============================
 app.post("/enviar-confirmacao", express.json(), async (req, res) => {
-  const { email } = req.body;
+  const { email, tipopagamento, valortotal, obs } = req.body;
   if (!email) return res.status(400).json({ error: "E-mail é obrigatório." });
+
+  if (!tipopagamento || !valortotal) {
+    return res.status(400).json({ error: "Tipo de pagamento e valor total são obrigatórios." });
+  }
+
+  let qrBase64 = null;
+  let valorpix = 0;
+  let payload = null;
+  if (tipopagamento === 'avista') {
+    valorpix = valortotal;
+    payload = gerarPayloadPix(
+      chavePix,
+      nome,
+      cidade,
+      valortotal,
+      `Pagamento à vista ${obs}`
+    );
+
+    qrBase64 = await QRCode.toDataURL(payload);
+  } else {
+    // 1 + 3 → entrada = 25% do total
+    const valorEntrada = Number(valortotal) / 4;
+    valorpix = valorEntrada;
+    payload = gerarPayloadPix(
+      chavePix,
+      nome,
+      cidade,
+      valorEntrada,
+      `Entrada (1+3) ${obs}`
+    );
+
+    qrBase64 = await QRCode.toDataURL(payload);
+  }
+
+  const base64Data = qrBase64.replace(/^data:image\/png;base64,/, "");
 
   try {
     const transporter = nodemailer.createTransport({
@@ -210,7 +245,7 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
         user: "noreply@prodasiq.com.br",
         pass: "Pr0d@5Iq", // use variável de ambiente em produção
       },
-	  tls: { rejectUnauthorized: false },
+      tls: { rejectUnauthorized: false },
     });
 
     await transporter.sendMail({
@@ -256,7 +291,17 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
                   </a>
                 </li>
               </ul>
-
+              <div>
+                <h3>Finalize em minutos: Pagamento via PIX</h3>
+                <p>Escaneie o QR Code ou copie a chave PIX abaixo para pagar o valor de ${formatarMoeda(valorpix)}.</p>
+                <img src="cid:qrcodepix"
+                  alt="QR Code PIX"
+                  style="width:200px;margin:20px auto;display:block;" />
+                  <p><strong>Ou copie o código PIX:</strong></p>
+                  <div class="pix-code-box" id="pix-code" style="background:#f1f5f9;padding: 1rem; border-radius:0.5rem; margin: 1rem 0;word-break: break-all;font-family: monospace;font-size: 0.85rem;position: relative;">
+                    ${payload}
+                  </div>
+              </div>
               <p style="color:#444;font-size:15px;line-height:1.6;margin-top:25px;">
                Caso já tenha enviado o comprovante, fique tranquilo! Após a confirmação nossa equipe entrará em contato para implantar o sistema e lhe passar todas informações necessárias.
               </p>
@@ -269,15 +314,29 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
           </div>
         </div>
       `,
+      attachments: [
+        {
+          filename: "qrcode.png",
+          cid: "qrcodepix",      // mesmo nome usado no HTML
+          content: Buffer.from(base64Data, "base64"),
+          encoding: "base64"
+        }
+      ]
     });
 
-    res.json({ ok: true, message: "E-mail enviado com sucesso." });
+    res.json({ ok: true, message: "E-mail enviado com sucesso.", "qrBase64": qrBase64 });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erro ao enviar o e-mail de confirmação." });
   }
 });
 
+function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
+}
 // =============================
 // Porta do Render
 // =============================
