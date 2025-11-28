@@ -331,11 +331,255 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
   }
 });
 
-function formatarMoeda(valor) {
-    return valor.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
+app.post("/reenvia-comprovante", express.json(), async (req, res) => {
+  const { email, tipopagamento, valortotal, obs } = req.body;
+  if (!email) return res.status(400).json({ error: "E-mail é obrigatório." });
+
+  if (!tipopagamento || !valortotal) {
+    return res.status(400).json({ error: "Tipo de pagamento e valor total são obrigatórios." });
+  }
+
+  let qrBase64 = null;
+  let valorpix = 0;
+  let payload = null;
+  if (tipopagamento === 'avista') {
+    valorpix = valortotal;
+    payload = gerarPayloadPix(
+      chavePix,
+      nome,
+      cidade,
+      valortotal,
+      `Pagamento à vista ${obs}`
+    );
+
+    qrBase64 = await QRCode.toDataURL(payload);
+  } else {
+    // 1 + 3 → entrada = 25% do total
+    const valorEntrada = Number(valortotal) / 4;
+    valorpix = valorEntrada;
+    payload = gerarPayloadPix(
+      chavePix,
+      nome,
+      cidade,
+      valorEntrada,
+      `Entrada (1+3) ${obs}`
+    );
+
+    qrBase64 = await QRCode.toDataURL(payload);
+  }
+
+  const base64Data = qrBase64.replace(/^data:image\/png;base64,/, "");
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      port: 587,
+      secure: false,
+      auth: {
+        user: "noreply@prodasiq.com.br",
+        pass: "Pr0d@5Iq", // use variável de ambiente em produção
+      },
+      tls: { rejectUnauthorized: false },
     });
+
+    await transporter.sendMail({
+      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      to: email,
+      subject: "📌 LEMBRETE - Enviar comprovante para validar licença Retaguarda 4.0",
+      html: `
+        <div style="width:100%;background:#f5f7fb;padding:40px 0;font-family:Arial, sans-serif;">
+          <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,0.08);">
+
+            <div style="text-align:center;margin-bottom:25px;">
+              <img src="https://prodasiq.com.br/reformatributaria/assets/images/Image20251117164631.png" alt="Prodasiq" style="width:160px;">
+            </div>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;text-align:center;">
+             Prezado, cliente!<br>Sua solicitação para agendamento da implantação do Retaguarda 4.0 foi recebida com sucesso e encontra-se na seguinte situação:
+            </p>
+
+            <div style="margin-top:30px;">
+
+            <p style="color:#444;font-size:15px;line-height:1.6;">
+              ⏳ Status: Aguardando envio de comprovante
+            </p>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;">
+            Estamos passando para lembrar que o agendamento só será efetivado após a confirmação do recebimento do seu comprovante.
+            Pedimos que nos encaminhe o comprovante através de um dos nossos canais abaixo:
+              <ul style="color:#444;font-size:15px;line-height:1.6;margin-left:18px;">
+                <li style="margin-bottom:10px;">
+                  <strong>E-mail:</strong>
+                  <a href="mailto:comprovante@prodasiq.com.br" style="color:#2a4eff;text-decoration:none;">
+                    comprovante@prodasiq.com.br
+                  </a>
+                  <br><span style="font-size:13px;color:#777;">(resposta em até 2 horas úteis)</span>
+                </li>
+
+                <li>
+                  <strong>WhatsApp:</strong>
+                  <a href="https://wa.me/555191703182?text=Olá,%20estou%20enviando%20o%20comprovante%20de%20pagamento%20da%20implantação%20Retaguarda%204.0."
+                    style="color:#2a4eff;text-decoration:none;font-weight:bold;">
+                    Clique aqui para enviar diretamente para nossa equipe
+                  </a>
+                </li>
+              </ul>
+            </p>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;">
+            ⚠️ <strong>IMPORTANTE:</strong> Esta etapa é necessária para validar sua nova licença e para que nossa equipe possa executar a implantação e treinamento do <strong>Retaguarda 4.0</strong>.
+            </p>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;">
+            🚨 <strong>AVISO:</strong> Caso o comprovante não seja enviado em até 48h após o recebimento deste lembrete, seu agendamento será suspenso e você precisará efetuar nova solicitação.
+            </p>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;">
+            Dúvidas entrar em contato! Estaremos à disposição!
+            </p>
+
+                  <div>
+                    <h3>Caso não tenha efetuado o pagamento ainda segue abaixo o PIX, conforme selecionado no momento da sua solicitação:</h3>
+                    <p>Escaneie o QR Code ou copie a chave PIX abaixo para pagar o valor de ${formatarMoeda(valorpix)}.</p>
+                    <img src="cid:qrcodepix"
+                      alt="QR Code PIX"
+                      style="width:200px;margin:20px auto;display:block;" />
+                      <p><strong>Ou copie o código PIX:</strong></p>
+                      <div class="pix-code-box" id="pix-code" style="background:#f1f5f9;padding: 1rem; border-radius:0.5rem; margin: 1rem 0;word-break: break-all;font-family: monospace;font-size: 0.85rem;position: relative;">
+                        ${payload}
+                      </div>
+                  </div>
+                  <p style="color:#444;font-size:15px;line-height:1.6;margin-top:25px;">
+                    ℹ️ <strong><i>Caso já tenha enviado o comprovante, desconsidere este aviso.<i></strong>
+                  </p>
+                </div>
+
+                <div style="text-align:center;margin-top:35px;font-size:13px;color:#999;">
+                  © ${new Date().getFullYear()} Prodasiq Sistemas. Todos os direitos reservados.
+                </div>
+
+              </div>
+            </div>
+          `,
+      attachments: [
+        {
+          filename: "qrcode.png",
+          cid: "qrcodepix",      // mesmo nome usado no HTML
+          content: Buffer.from(base64Data, "base64"),
+          encoding: "base64"
+        }
+      ]
+    });
+
+    res.json({ ok: true, message: "E-mail enviado com sucesso.", "qrBase64": qrBase64 });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao enviar o e-mail de confirmação." });
+  }
+});
+
+app.post("/cancelado", express.json(), async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: "E-mail é obrigatório." });
+
+
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      port: 587,
+      secure: false,
+      auth: {
+        user: "noreply@prodasiq.com.br",
+        pass: "Pr0d@5Iq", // use variável de ambiente em produção
+      },
+      tls: { rejectUnauthorized: false },
+    });
+
+    await transporter.sendMail({
+      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      to: email,
+      subject: "🚨 *ATENÇÃO! - Sua solicitação para agendamento da implantação do Retaguarda 4.0 foi SUSPENSA*",
+      html: `
+        <div style="width:100%;background:#f5f7fb;padding:40px 0;font-family:Arial, sans-serif;">
+          <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,0.08);">
+
+            <div style="text-align:center;margin-bottom:25px;">
+              <img src="https://prodasiq.com.br/reformatributaria/assets/images/Image20251117164631.png" alt="Prodasiq" style="width:160px;">
+            </div>
+
+            <p style="color:#444;font-size:15px;line-height:1.6;text-align:center;">
+            Prezado(a) Cliente,
+            </p>
+
+            <div style="margin-top:30px;">
+
+              <p style="color:#444;font-size:15px;line-height:1.6;">
+                Conforme o lembrete enviado anteriormente, o comprovante de pagamento referente à sua solicitação de implantação do Retaguarda 4.0 <strong>*não foi localizado*</strong>.
+              <p>
+
+              <p style="color:#444;font-size:15px;line-height:1.6;">
+                Por este motivo, sua <strong>*solicitação de agendamento foi oficialmente suspensa*</strong>e sua vaga não pode ser reservada, liberando a prioridade para a próxima solicitação confirmada.
+              </p>
+
+              <p style="color:#444;font-size:15px;line-height:1.6;">
+                Para reverter esta situação e reativar imediatamente o agendamento, finalize a confirmação enviando o comprovante para um de nossos canais abaixo:
+                <ul style="color:#444;font-size:15px;line-height:1.6;margin-left:18px;">
+                  <li style="margin-bottom:10px;">
+                    <strong>E-mail:</strong>
+                    <a href="mailto:comprovante@prodasiq.com.br" style="color:#2a4eff;text-decoration:none;">
+                    comprovante@prodasiq.com.br
+                    </a>
+                    <br><span style="font-size:13px;color:#777;">(resposta em até 2 horas úteis)</span>
+                  </li>
+
+                  <li>
+                    <strong>WhatsApp:</strong>
+                    <a href="https://wa.me/555191703182?text=Olá,%20estou%20enviando%20o%20comprovante%20de%20pagamento%20da%20implantação%20Retaguarda%204.0."
+                    style="color:#2a4eff;text-decoration:none;font-weight:bold;">
+                    Clique aqui para enviar diretamente para nossa equipe
+                    </a>
+                  </li>
+                </ul>
+             </p>
+
+             <p style="color:#444;font-size:15px;line-height:1.6;">
+               Ou refaça a aquisição clicando no link: [https://prodasiq.com.br/reformatributaria/index.html]<br><br>
+              ⚠️<strong>*ATENÇÃO: O prazo para a implantação encerra em 31/12/2025. Aconselhamos a ação imediata para evitar a paralisação do faturamento em 2026.*</strong>
+            </p>
+
+
+			 <p tyle="color:#444;font-size:15px;line-height:1.6;">
+				À disposição,<br>
+				PRODASIQ DESENVOLVIMENTO DE SISTEMAS
+				(51) 999 544 057
+			 </p>
+
+
+            </div>
+
+            <div style="text-align:center;margin-top:35px;font-size:13px;color:#999;">
+              © ${new Date().getFullYear()} Prodasiq Sistemas. Todos os direitos reservados.
+            </div>
+
+          </div>
+        </div>
+      `,
+
+    });
+
+    res.json({ ok: true, message: "E-mail enviado com sucesso." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao enviar o e-mail de cancelamento." });
+  }
+});
+
+function formatarMoeda(valor) {
+  return valor.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
 }
 // =============================
 // Porta do Render
