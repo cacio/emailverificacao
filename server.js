@@ -596,71 +596,85 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
     await transporter.sendMail({
       from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
       to: email,
-      subject: "⚠️ [Atenção: 31/12/2025] - Cuidado com o prazo para adequar sua versão do sistema",
+      subject: "🚨[ATENÇÃO AO PRAZO] - A REFORMA TRIBUTÁRIA começa em 2026 | Garanta sua Implantação do Retaguarda 4.0",
       html: `
         <div style="width:100%;background:#f5f7fb;padding:40px 0;font-family:Arial, sans-serif;">
           <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,0.08);">
 
             <p>Prezado(a) Cliente,</p>
 
-            <p style="margin-left:20px;">
-              🚨 <b>O prazo máximo</b> para agendamento da sua implantação e treinamento é
-              <b>31 de Dezembro de 2025</b>.<br><br>
-              Em <b>01/2026</b>, a obrigatoriedade de registrar os novos impostos (IBS/CBS) nos documentos fiscais começa a valer.
+            <p>
+              🗓️
+              &nbsp;Com a aproximação de <b>31/12/2025</b>, o momento de agir para a implantação do Retaguarda 4.0 é agora.
+              ³As diretrizes fiscais confirmam: o registro correto do IBS/CBS <b>é obrigatório a partir de 01/2026</b>.
             </p>
 
-            <p style="margin-left:20px;">
-              📅 A partir de 01/01/2026 passa a valer a exigência de
-              <b>preencher corretamente as tags de IBS/CBS</b>. Operar com o sistema antigo a partir de Janeiro expõe sua empresa a dois riscos graves:
+            <p><b>Por que agir agora:</b></p>
+
+            <p style="margin-left:36px;">
+              <b>
+                <img src="https://fonts.gstatic.com/s/e/notoemoji/16.0/274c/32.png" alt="❌" style="vertical-align:middle; width:16px;">&nbsp;
+                ¹Risco de Multa:
+              </b>
+              Evite autuações futuras por omissão de informações obrigatórias.
             </p>
 
-            <ol style="margin-left:20px;">
-              <li style="font-size:14px;">Multas e autuações futuras por inconsistência no registro.</li>
-              <li style="font-size:14px;">Perda do direito de aproveitar os novos créditos fiscais da Não-Cumulatividade Plena.</li>
-            </ol>
-
-            <p style="margin-left:20px;">
-              O <b>Retaguarda 4.0</b> é a nossa solução atualizada para atender todas as exigências da Reforma Tributária.
+            <p style="margin-left:36px;">
+              <b>
+                <img src="https://fonts.gstatic.com/s/e/notoemoji/16.0/1fa99/32.png" alt="🪙" style="vertical-align:middle;width:16px;">&nbsp;
+                ²Créditos:
+              </b>
+              Garanta o aproveitamento total dos novos créditos fiscais do próximo ano.
             </p>
 
-            <p style="margin-left:20px;">
-              🔗 <b>NÃO DEIXE PARA ÚLTIMA HORA:</b>
-              <br>
-              <a href="https://prodasiq.com.br/reformatributaria/index.html" target="_blank">
-                CLIQUE AQUI para acessar nossa página e saber mais detalhes e como solicitar sua implantação.
-              </a>
+            <p style="margin-left:36px;">
+              <b>
+                <img src="https://fonts.gstatic.com/s/e/notoemoji/16.0/1f6e1/32.png" alt="🛡" style="vertical-align:middle;width:16px;">&nbsp;Confiança:
+              </b>
+              Nossa equipe está pronta para realizar a migração e o treinamento de forma <b>rápida e segura</b>, sem interromper sua operação.
             </p>
 
-            <p style="margin-left:20px;"><b>O que você fará na página:</b></p>
-
-            <ol style="margin-left:20px;">
-              <li style="font-size:14px;">Entender de forma simples o que muda na emissão de notas.</li>
-              <li style="font-size:14px;">Validar e inserir os dados da sua empresa para acessar o agendamento.</li>
-              <li style="font-size:14px;">Realizar o agendamento online integrado à nossa equipe.</li>
-            </ol>
-
-            <p style="margin-left:20px;">
-              ⏰ Não adie sua conformidade fiscal. Esteja com seu sistema pronto para começar 2026!
+            <p>
+              <img src="https://fonts.gstatic.com/s/e/notoemoji/16.0/26a0/32.png" alt="⚠" style="vertical-align:middle;width:16px;">
+              &nbsp;Não adie sua segurança fiscal. Garanta que o seu sistema comece 2026 em total conformidade.
             </p>
 
-            <p>À disposição,</p>
+            <p>
+              <img src="https://fonts.gstatic.com/s/e/notoemoji/16.0/1f517/32.png" alt="🔗" style="vertical-align:middle;width:16px;">
+              &nbsp;<b>
+                <a href="https://prodasiq.com.br/reformatributaria/index.html" target="_blank">
+                  CLIQUE AQUI e Agende a Implantação da sua Licença
+                </a>
+              </b>
+            </p>
 
-            <div style="border-bottom:1px solid #ddd;padding-bottom:8px;margin-bottom:15px;">
-              <p><b>PRODASIQ DESENVOLVIMENTO DE SISTEMAS</b><br>
-              <b>(51) 999 544 057</b></p>
+            <p>Atenciosamente,</p>
+
+            <div style="border-bottom:1px solid #ccc;margin-bottom:20px;padding-bottom:6px;">
+              <b>PRODASIQ DESENVOLVIMENTO DE SISTEMAS</b>
             </div>
 
+            <!-- Notas legais -->
             <p style="font-size:10px;line-height:1.4;">
-              ¹ <b><i>Código Tributário Nacional (CTN) - Art. 113, §2º e §3º:</i></b>
-              Define a Obrigação Acessória e determina que sua inobservância gera penalidade.
-              A legislação recente prevê multas, como: <b>10 UPF/IBS por informação omitida</b> e
-              <b>5 UPF/IBS por erro</b> no documento fiscal (Art. 59).
+              <b>¹ Código Tributário Nacional (CTN) - Art. 113, §2º e §3º:</b>
+              Define a Obrigação Acessória (prestação de informações) e estabelece que sua inobservância gera penalidade.
+              PLP 108/2024 prevê:
+              <b>10 UPF/IBS por informação omitida</b> ou <b>5 UPF/IBS por erro</b> (Art. 59).
             </p>
 
             <p style="font-size:10px;line-height:1.4;">
-              ² <b><i>Emenda Constitucional 132/2023:</i></b>
-              O novo regime IBS/CBS exige registro correto para gerar crédito fiscal.
-              Se a nota for emitida em 2026 sem as tags, não haverá base de cálculo para crédito.
+              <b>² Emenda Constitucional nº 132/2023:</b>
+              O regime IBS/CBS é baseado na Não-Cumulatividade Plena. Para ter direito ao crédito, é obrigatório registrar e escriturar corretamente.
+              Se emitir notas em 2026 sem as tags IBS/CBS, não haverá base para crédito fiscal.
+            </p>
+
+            <p style="font-size:10px;line-height:1.4;">
+              <b>³ Reforma Tributária – Orientações Oficiais:</b>
+              IBS e CBS passam a valer <b>em 1º de janeiro de 2026</b>.<br>
+              Fonte oficial:<br>
+              <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/dezembro/receita-federal-e-comite-gestor-do-ibs-orientam-sobre-entrada-em-vigor-do-novo-sistema-de-tributacao" target="_blank" style="font-size:10px;">
+                https://www.gov.br/fazenda/.../novo-sistema-de-tributacao
+              </a>
             </p>
 
           </div>
