@@ -596,20 +596,35 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
     await transporter.sendMail({
       from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
       to: email,
-      subject: "🚨[ATENÇÃO AO PRAZO] - A REFORMA TRIBUTÁRIA começa em 2026 | Garanta sua Implantação do Retaguarda 4.0",
+      subject: "🚨[ÚLTIMA SEMANA] - A REFORMA TRIBUTÁRIA começa em 2026 | Cuidado para não iniciar o ano sem as informações obrigatórias em seus documentos fiscais",
       html: `
         <div style="width:100%;background:#f5f7fb;padding:40px 0;font-family:Arial, sans-serif;">
           <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,0.08);">
 
             <p>Prezado(a) Cliente,</p>
 
-            <p>
-              🗓️
-              &nbsp;Com a aproximação de <b>31/12/2025</b>, o momento de agir para a implantação do
-              <b>Retaguarda 4.0</b> é agora.
-              ³As diretrizes fiscais confirmam: o registro correto do IBS/CBS
-              <b>é obrigatório a partir de 01/2026</b>.
-            </p>
+          <p>
+            🗓️
+            &nbsp;<b>Entramos na última semana do ano</b> e o dia <b>31/12/2025</b> é o
+            <b>último dia</b> para realizar o agendamento e a implantação do
+            <b>Retaguarda 4.0</b>.
+          </p>
+
+          <p>
+            ✅
+            &nbsp;<b>Mais de 80% de nossos clientes</b> já implantaram a versão 4.0,
+            que contempla as exigências da Reforma Tributária, e já estão adequados
+            para a virada do ano.
+          </p>
+
+          <p>
+            ⚠️
+            &nbsp;Se você está recebendo este comunicado, significa que
+            <b>ainda não tivemos sua solicitação de implantação efetivada</b>.
+            O momento de agir é agora!
+            ³As diretrizes fiscais confirmam que o registro correto do IBS/CBS
+            <b>é obrigatório a partir de 01/2026</b>.
+          </p>
 
             <p><b>Por que agir agora:</b></p>
 
@@ -636,6 +651,15 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
               </b>
               Nossa equipe está pronta para realizar a migração e o treinamento de forma
               <b>rápida e segura</b>, sem interromper sua operação.
+            </p>
+
+            <p style="margin-left:36px;">
+              <b>
+                ⌛
+                &nbsp;Agenda apertada:
+              </b>
+              Nossa agenda de implantação está praticamente sem horários disponíveis.
+              <b>Garanta seu horário o quanto antes.</b>
             </p>
 
              <p>
