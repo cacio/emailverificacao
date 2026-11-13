@@ -596,120 +596,163 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
     await transporter.sendMail({
       from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
       to: email,
-      subject: "🚨[ÚLTIMA SEMANA] - A REFORMA TRIBUTÁRIA começa em 2026 | Cuidado para não iniciar o ano sem as informações obrigatórias em seus documentos fiscais",
+      subject: "🚨 Prepare sua empresa para a Virada Fiscal de 2027 com o Retaguarda 4.0",
       html: `
-        <div style="width:100%;background:#f5f7fb;padding:40px 0;font-family:Arial, sans-serif;">
-          <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:10px;padding:35px;box-shadow:0 5px 20px rgba(0,0,0,0.08);">
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<title>Prepare sua empresa para a Virada Fiscal de 2027</title>
+<style>
+  body { margin:0; padding:0; width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+  table { border-collapse:collapse; }
+  img { border:0; outline:none; text-decoration:none; }
+  a { color:#4f46e5; }
+  @media only screen and (max-width:620px) {
+    .container { width:100% !important; }
+    .px { padding-left:24px !important; padding-right:24px !important; }
+    .h1 { font-size:22px !important; line-height:30px !important; }
+    .btn a { display:block !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background-color:#f3f4f6;">
 
-            <p>Prezado(a) Cliente,</p>
+<!-- Pré-cabeçalho (texto que aparece na prévia da caixa de entrada) -->
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#f3f4f6;">
+  Sua empresa ainda não migrou para o Retaguarda 4.0. Últimos horários de novembro e dezembro para a migração.
+</div>
 
-          <p>
-            🗓️
-            &nbsp;<b>Entramos na última semana do ano</b> e o dia <b>31/12/2025</b> é o
-            <b>último dia</b> para realizar o agendamento e a implantação do
-            <b>Retaguarda 4.0</b>.
-          </p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f3f4f6" style="background-color:#f3f4f6;">
+  <tr>
+    <td align="center" style="padding:32px 12px;">
 
-          <p>
-            ✅
-            &nbsp;<b>Mais de 80% de nossos clientes</b> já implantaram a versão 4.0,
-            que contempla as exigências da Reforma Tributária, e já estão adequados
-            para a virada do ano.
-          </p>
+      <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e5e7eb;">
 
-          <p>
-            ⚠️
-            &nbsp;Se você está recebendo este comunicado, significa que
-            <b>ainda não tivemos sua solicitação de implantação efetivada</b>.
-            O momento de agir é agora!
-            ³As diretrizes fiscais confirmam que o registro correto do IBS/CBS
-            <b>é obrigatório a partir de 01/2026</b>.
-          </p>
+        <!-- Cabeçalho -->
+        <tr>
+          <td class="px" bgcolor="#4f46e5" style="background-color:#4f46e5; padding:28px 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:20px; font-weight:700; color:#ffffff; letter-spacing:1px;">
+                  PRODASIQ
+                </td>
+                <td align="right" style="font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:13px; font-weight:600; color:#e0e7ff;">
+                  Retaguarda 4.0
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-            <p><b>Por que agir agora:</b></p>
+        <!-- Selo + título -->
+        <tr>
+          <td class="px" style="padding:36px 40px 8px 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td bgcolor="#fef2f2" style="background-color:#fef2f2; border:1px solid #fecaca; border-radius:20px; padding:6px 14px; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; font-weight:700; color:#991b1b; letter-spacing:0.5px;">
+                  &#128680; AÇÃO NECESSÁRIA &middot; REFORMA TRIBUTÁRIA
+                </td>
+              </tr>
+            </table>
+            <h1 class="h1" style="margin:20px 0 0 0; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:26px; line-height:34px; font-weight:700; color:#1f2937;">
+              Prepare sua empresa para a Virada Fiscal de 2027 com o Retaguarda 4.0.
+            </h1>
+          </td>
+        </tr>
 
-           <p style="margin-left:36px;">
-              <b>
-                ❌
-                &nbsp;¹Risco de Multa:
-              </b>
-              Evite autuações futuras por omissão de informações obrigatórias.
+        <!-- Corpo -->
+        <tr>
+          <td class="px" style="padding:20px 40px 0 40px; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:15px; line-height:24px; color:#1f2937;">
+            <p style="margin:0 0 16px 0;">Olá!</p>
+            <p style="margin:0 0 16px 0;">
+              Estamos entrando na reta final de 2026 e identificamos que sua empresa
+              <strong>ainda não realizou a atualização para o Retaguarda 4.0</strong>.
             </p>
-
-            <p style="margin-left:36px;">
-              <b>
-                🪙
-                &nbsp;²Créditos:
-              </b>
-              Garanta o aproveitamento total dos novos créditos fiscais do próximo ano.
+            <p style="margin:0 0 24px 0;">
+              Com as novas etapas da Reforma Tributária entrando em vigor agora no final do ano e a
+              <strong>virada definitiva em 01/01/2027</strong> (incluindo novas regras para o Simples Nacional,
+              fim do PIS/COFINS, entrada da CBS e mudanças no layout das notas e DANFE), o sistema antigo
+              deixará de atender às exigências fiscais.
             </p>
+          </td>
+        </tr>
 
-            <p style="margin-left:36px;">
-              <b>
-                🛡️
-                &nbsp;Confiança:
-              </b>
-              Nossa equipe está pronta para realizar a migração e o treinamento de forma
-              <b>rápida e segura</b>, sem interromper sua operação.
-            </p>
+        <!-- Destaque da data -->
+        <tr>
+          <td class="px" style="padding:0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#fffbeb" style="background-color:#fffbeb; border:1px solid #fde68a; border-radius:12px;">
+              <tr>
+                <td style="padding:18px 20px; font-family:'Segoe UI',Helvetica,Arial,sans-serif;">
+                  <div style="font-size:12px; font-weight:700; color:#92400e; letter-spacing:0.5px;">VIRADA DEFINITIVA</div>
+                  <div style="font-size:24px; font-weight:700; color:#1f2937; line-height:32px;">01/01/2027</div>
+                  <div style="font-size:14px; line-height:21px; color:#92400e;">Simples Nacional &middot; Fim do PIS/COFINS &middot; Entrada da CBS &middot; Novo layout de notas e DANFE</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-            <p style="margin-left:36px;">
-              <b>
-                ⌛
-                &nbsp;Agenda apertada:
-              </b>
-              Nossa agenda de implantação está praticamente sem horários disponíveis.
-              <b>Garanta seu horário o quanto antes.</b>
+        <tr>
+          <td class="px" style="padding:24px 40px 0 40px; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:15px; line-height:24px; color:#1f2937;">
+            <p style="margin:0 0 16px 0;">
+              Recomendamos que confirme com a sua contabilidade o enquadramento e as obrigações da sua empresa
+              para este período. Caso seu contador confirme a necessidade de adequação, nossa equipe está com os
+              <strong>últimos horários disponíveis na agenda de novembro e dezembro</strong> para realizar a sua
+              migração com tranquilidade antes do final do ano.
             </p>
+            <p style="margin:0 0 20px 0;">&#128073; Confira os detalhes e solicite seu agendamento aqui:</p>
+          </td>
+        </tr>
 
-             <p>
-              ⚠️
-              &nbsp;<b>Não adie sua segurança fiscal.</b>
-              Garanta que o seu sistema comece 2026 em total conformidade.
-            </p>
-            <p>
-              🔗
-              &nbsp;<b>
-                <a href="https://prodasiq.com.br/reformatributaria/index.html" target="_blank">
-                  CLIQUE AQUI e Agende a Implantação da sua Licença
-                </a>
-              </b>
-            </p>
+        <!-- Botão -->
+        <tr>
+          <td class="px btn" align="center" style="padding:0 40px 28px 40px;">
+            <!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://prodasiq.com.br/reformatributaria/index.html" style="height:50px;v-text-anchor:middle;width:360px;" arcsize="20%" stroke="f" fillcolor="#4f46e5">
+              <center style="color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">Reforma Tributária - Entenda as Mudanças</center>
+            </v:roundrect>
+            <![endif]-->
+            <!--[if !mso]><!-->
+            <a href="https://prodasiq.com.br/reformatributaria/index.html" target="_blank"
+               style="display:inline-block; background-color:#4f46e5; color:#ffffff; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:16px; font-weight:700; line-height:20px; text-decoration:none; padding:15px 32px; border-radius:10px;">
+              Reforma Tributária - Entenda as Mudanças
+            </a>
+            <!--<![endif]-->
+          </td>
+        </tr>
 
-            <p>Atenciosamente,</p>
-            <div style="border-bottom:1px solid #ccc;margin-bottom:20px;padding-bottom:6px;">
-              <b>PRODASIQ DESENVOLVIMENTO DE SISTEMAS</b>
-            </div>
-
-            <!-- Notas legais -->
-            <p style="font-size:10px;line-height:1.4;">
-              <b>¹ Código Tributário Nacional (CTN) - Art. 113, §2º e §3º:</b>
-              Define a Obrigação Acessória (prestação de informações) e estabelece que sua inobservância
-              se converte em obrigação principal (penalidade pecuniária).
-              Jurisprudência (PLP 108/2024) prevê multas de
-              <b>10 UPF/IBS por informação omitida</b> ou
-              <b>5 UPF/IBS por erro</b> no documento fiscal (Art. 59).
+        <tr>
+          <td class="px" style="padding:0 40px 32px 40px; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:15px; line-height:24px; color:#1f2937;">
+            <p style="margin:0 0 24px 0;">
+              Qualquer dúvida, estamos à disposição para conversar diretamente com você ou com o seu contador!
             </p>
-
-            <p style="font-size:10px;line-height:1.4;">
-              <b>² Emenda Constitucional nº 132/2023 (Reforma Tributária):</b>
-              O regime IBS/CBS é baseado na Não-Cumulatividade Plena.
-              Para ter direito ao crédito, o contribuinte deve registrar e escriturar corretamente.
-              Notas emitidas em 2026 sem as tags IBS/CBS
-              <b>não permitirão apuração de crédito</b>.
+            <p style="margin:0;">
+              Atenciosamente,<br>
+              <strong>PRODASIQ Desenvolvimento de Sistemas</strong>
             </p>
+          </td>
+        </tr>
 
-            <p style="font-size:10px;line-height:1.4;">
-              <b>³ Reforma Tributária – Receita Federal e Comitê Gestor do IBS:</b>
-              IBS e CBS passam a valer <b>a partir de 1º de janeiro de 2026</b>.<br>
-              Fonte oficial:<br>
-              <a href="https://www.gov.br/fazenda/pt-br/assuntos/noticias/2025/dezembro/receita-federal-e-comite-gestor-do-ibs-orientam-sobre-entrada-em-vigor-do-novo-sistema-de-tributacao"
-                target="_blank" style="font-size:10px;">
-                https://www.gov.br/fazenda/.../novo-sistema-de-tributacao
-              </a>
-            </p>
-          </div>
-        </div>
+        <!-- Rodapé -->
+        <tr>
+          <td class="px" bgcolor="#f9fafb" style="background-color:#f9fafb; border-top:1px solid #e5e7eb; padding:20px 40px; font-family:'Segoe UI',Helvetica,Arial,sans-serif; font-size:12px; line-height:18px; color:#6b7280;">
+            Você está recebendo este e-mail por ser cliente PRODASIQ.<br>
+            Se o botão não funcionar, copie e cole este endereço no navegador:<br>
+            <a href="https://prodasiq.com.br/reformatributaria/index.html" style="color:#4f46e5; word-break:break-all;">https://prodasiq.com.br/reformatributaria/index.html</a>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+</body>
+</html>
       `,
 
     });
@@ -717,7 +760,7 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
     res.json({ ok: true, message: "E-mail enviado com sucesso." });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Erro ao enviar o e-mail de cancelamento." });
+    res.status(500).json({ error: "Erro ao enviar o e-mail de lembrete." });
   }
 });
 
