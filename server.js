@@ -145,7 +145,7 @@ app.post("/enviar-codigo", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
@@ -238,7 +238,7 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
@@ -372,7 +372,7 @@ app.post("/reenvia-comprovante", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
@@ -486,7 +486,7 @@ app.post("/cancelado", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
@@ -583,7 +583,7 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
+      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
       port: 587,
       secure: false,
       auth: {
