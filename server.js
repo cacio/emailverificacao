@@ -8,6 +8,33 @@ const chavePix = "92113026000164";
 const nome = "Prodasiq Sistemas";
 const cidade = "PORTO ALEGRE";
 
+// =============================
+// CONFIGURAÇÃO DO E-MAIL (SMTP)
+// =============================
+// Os dados vêm de variáveis de ambiente:
+//  - no Render: painel do serviço > Environment
+//  - no computador: arquivo .env na pasta do projeto (não vai para o git)
+try { process.loadEnvFile(); } catch { /* sem .env: usa só as variáveis do ambiente */ }
+
+const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
+const MAIL_FROM = process.env.MAIL_FROM || '"Retaguarda 4.0" <noreply@prodasiq.com.br>';
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465, // 465 = SSL direto; 587/2525 = STARTTLS
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  connectionTimeout: 15000,
+  tls: { rejectUnauthorized: process.env.SMTP_TLS_INSECURE !== "true" },
+});
+
+if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+  console.warn("⚠️  SMTP_HOST, SMTP_USER ou SMTP_PASS não configurados: o envio de e-mails vai falhar.");
+}
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
@@ -144,19 +171,9 @@ app.post("/enviar-codigo", express.json(), async (req, res) => {
   codigosAtivos.set(email, { codigo, expiraEm });
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
-      port: 587,
-      secure: false,
-      auth: {
-        user: "noreply@prodasiq.com.br",
-        pass: "Pr0d@5Iq", // use variável de ambiente em produção
-      },
-      tls: { rejectUnauthorized: false },
-    });
 
     await transporter.sendMail({
-      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      from: MAIL_FROM,
       to: email,
       subject: "Código de Verificação",
       html: `
@@ -237,19 +254,9 @@ app.post("/enviar-confirmacao", express.json(), async (req, res) => {
   const base64Data = qrBase64.replace(/^data:image\/png;base64,/, "");
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
-      port: 587,
-      secure: false,
-      auth: {
-        user: "noreply@prodasiq.com.br",
-        pass: "Pr0d@5Iq", // use variável de ambiente em produção
-      },
-      tls: { rejectUnauthorized: false },
-    });
 
     await transporter.sendMail({
-      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      from: MAIL_FROM,
       to: email,
       subject: "Solicitação de implantação - Retaguarda 4.0",
       html: `
@@ -371,19 +378,9 @@ app.post("/reenvia-comprovante", express.json(), async (req, res) => {
   const base64Data = qrBase64.replace(/^data:image\/png;base64,/, "");
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
-      port: 587,
-      secure: false,
-      auth: {
-        user: "noreply@prodasiq.com.br",
-        pass: "Pr0d@5Iq", // use variável de ambiente em produção
-      },
-      tls: { rejectUnauthorized: false },
-    });
 
     await transporter.sendMail({
-      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      from: MAIL_FROM,
       to: email,
       subject: "📌 LEMBRETE - Enviar comprovante para validar licença Retaguarda 4.0",
       html: `
@@ -485,19 +482,9 @@ app.post("/cancelado", express.json(), async (req, res) => {
 
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
-      port: 587,
-      secure: false,
-      auth: {
-        user: "noreply@prodasiq.com.br",
-        pass: "Pr0d@5Iq", // use variável de ambiente em produção
-      },
-      tls: { rejectUnauthorized: false },
-    });
 
     await transporter.sendMail({
-      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      from: MAIL_FROM,
       to: email,
       subject: "🚨 *ATENÇÃO! - Sua solicitação para agendamento da implantação do Retaguarda 4.0 foi SUSPENSA*",
       html: `
@@ -582,19 +569,9 @@ app.post("/lembrete-agendamento", express.json(), async (req, res) => {
 
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtpi.prodasiq.com.br", // ou o SMTP da AWS / Gmail etc.
-      port: 587,
-      secure: false,
-      auth: {
-        user: "noreply@prodasiq.com.br",
-        pass: "Pr0d@5Iq", // use variável de ambiente em produção
-      },
-      tls: { rejectUnauthorized: false },
-    });
 
     await transporter.sendMail({
-      from: '"Retaguarda 4.0" <noreply@prodasiq.com.br>',
+      from: MAIL_FROM,
       to: email,
       subject: "🚨 Prepare sua empresa para a Virada Fiscal de 2027 com o Retaguarda 4.0",
       html: `
